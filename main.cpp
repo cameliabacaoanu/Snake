@@ -4,7 +4,7 @@
 using namespace std;
 
 bool gameOver;
-int x, y, fruitX, fruitY, score,wall,speed, width = 20, height = 20, nTail;
+int x, y, fruitX, fruitY, score,wall,speed, width = 20, height = 20, nTail,v=10;
 char p1_name[100];
 enum eDirecton { STOP = 0, LEFT, RIGHT, UP, DOWN};
 eDirecton dir;
@@ -34,7 +34,7 @@ void playMenu(){
 	{
 		tailX[i]=0;
 		tailY[i]=0;
-		
+
 	}
 	score = 0;
 
@@ -47,9 +47,46 @@ void scoreMenu(){
 
 void Draw()
 {
+    system("cls");
+	for (int i = 0; i < width+2; i++)
+		cout << "-";
+	cout << endl;
+	for (int i = 0; i < height; i++)
+	{
+		for (int j = 0; j < width; j++)
+		{
+			if (j == 0)
+				cout << "|";
+			if (i == y && j == x)
+				cout << '#';
+			else if (i == fruitY && j == fruitX)
+				cout << '*';
+			else
+			{
+				bool print = false;
+				for (int k = 0; k < nTail; k++)
+				{
+					if (tailX[k] == j && tailY[k] == i)
+					{
+						cout << "o";
+						print = true;
+					}
+				}
+				if (!print)
+					cout << " ";
+			}
 
-
+			if (j == width - 1)
+				cout << "|";
+		}
+		cout << endl;
+	}
+	for (int i = 0; i < width+2; i++)
+		cout << "-";
+	cout << endl;
+	cout << "Score:" << score << endl;
 }
+
 void Input()
 {
 
@@ -60,8 +97,13 @@ void Logic()
 }
 void startGame()
 {
-
-
+	while (!gameOver)
+	{
+		Draw();
+		Input();
+		Logic();
+		Sleep(v);
+	}
 }
 
 void Setup()
