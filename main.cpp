@@ -117,6 +117,14 @@ void Logic()
 	int prev2X, prev2Y;
 	tailX[0] = x;
 	tailY[0] = y;
+	if (speed == 1)
+        v=50;
+    else
+        if(speed == 2)
+          v=30;
+        else
+          if(speed == 3)
+            v=10;
         for (int i = 1; i < nTail; i++)
 	{
 		prev2X = tailX[i];
@@ -143,7 +151,30 @@ void Logic()
 	default:
 		break;
 	}
-
+   if(wall == 1)
+	{if (x > width || x < 0 || y > height || y < 0)
+	  gameOver = true;}
+	else
+	 {if (x >= width)
+	    x = 0;
+      else
+        if (x < 0)
+          x = width - 1;
+      if (y >= height)
+        y = 0;
+      else
+        if (y < 0)
+          y = height - 1;}
+	for (int i = 0; i < nTail; i++)
+		if (tailX[i] == x && tailY[i] == y)
+			gameOver = true;
+	if (x == fruitX && y == fruitY)
+	{
+		score += 10;
+		fruitX = rand() % width;
+		fruitY = rand() % height;
+		nTail++;
+	}
 }
 void startGame()
 {
