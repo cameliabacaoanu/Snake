@@ -14,7 +14,6 @@ void playMenu(){
 
     cout<<"Introdu numele jucatorului"<<endl;
     cin>>p1_name;
-    }
     cout<<"FINAL JOC LA IMPACT CU MARGINILE? (1/0)"<<endl;
     cin>>wall;
     cout<<"DIFICULTATE: 1=USOR  2=MEDIU  3=GREU "<<endl;
@@ -89,10 +88,61 @@ void Draw()
 
 void Input()
 {
-
+  if (_kbhit())
+	{
+		switch (_getch())
+		{
+		case 'a':
+			dir = LEFT;
+			break;
+		case 'd':
+			dir = RIGHT;
+			break;
+		case 'w':
+			dir = UP;
+			break;
+		case 's':
+			dir = DOWN;
+			break;
+		case 'x':
+			gameOver = true;
+			break;
+		}
+	}
 }
 void Logic()
 {
+        int prevX = tailX[0];
+	int prevY = tailY[0];
+	int prev2X, prev2Y;
+	tailX[0] = x;
+	tailY[0] = y;
+        for (int i = 1; i < nTail; i++)
+	{
+		prev2X = tailX[i];
+		prev2Y = tailY[i];
+		tailX[i] = prevX;
+		tailY[i] = prevY;
+		prevX = prev2X;
+		prevY = prev2Y;
+	}
+	switch (dir)
+	{
+	case LEFT:
+		x--;
+		break;
+	case RIGHT:
+		x++;
+		break;
+	case UP:
+		y--;
+		break;
+	case DOWN:
+		y++;
+		break;
+	default:
+		break;
+	}
 
 }
 void startGame()
