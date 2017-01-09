@@ -218,9 +218,31 @@ void Setup()
 
 int main ()
 {
-cout<<"BUN VENIT!!!"<<endl;
+   int n;
+    cout<<"BUN VENIT!!!"<<endl;
+    while(1)
+  {
+   
+	if(gameOver)
+    {
+    
 
-Setup();
+        cout<<"JOC NOU? (1/0) "<<endl;
+        cin>>n;
+
+        gameOver = false;
+        if(n==0)
+        {
+            Setup(); 
+        }
+        else{
+            playMenu(); 
+            startGame(); 
+        }
+    }
+    else
+        Setup();
+    }
 
 }
 
