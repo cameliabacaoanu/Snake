@@ -1,6 +1,7 @@
 #include <iostream>
 #include <windows.h>
 #include <conio.h>
+#include <fstream>
 using namespace std;
 
 bool gameOver;
@@ -12,6 +13,9 @@ int tailX[100], tailY[100];
 bool powerUp = false;
 int powerUpType = rand()% 3;
 bool twoPlayer=false;
+char filename[] = "scoreFile";
+std::fstream myFile;
+
 
 void playMenu(){
 
@@ -31,11 +35,11 @@ void playMenu(){
 
 	fruitX = rand() % width;
 	fruitY = rand() % height;
-    do{
+    do
+       {
        	powerUpX = rand() % width;
         powerUpY = rand() % height;
-	  }
-	while(fruitX==powerUpX && fruitY==powerUpY);
+	}while(fruitX==powerUpX && fruitY==powerUpY);
 
 
 	for(int i=0;i<=100;i++)
@@ -48,8 +52,18 @@ void playMenu(){
 
 }
 
-void scoreMenu(){
-
+void scoreMenu()
+{  
+    system("cls");
+    std::string str;
+    std::ifstream f(filename);
+    f.clear();
+    f.seekg(0, std::ios::beg);
+    while (std::getline(f, str))
+    {
+        cout<<str<<"\n";
+    }
+        cout<<"\n";
 
 }
 
@@ -240,7 +254,10 @@ int main ()
 	if(gameOver)
     {
 
-
+        ofstream output(filename, std::ios_base::app | std::ios_base::out);
+        output <<p1_name<<" - "<<score<<"\n";
+        output.close();
+       
         cout<<"JOC NOU? (1/0) "<<endl;
         cin>>n;
 
