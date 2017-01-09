@@ -4,11 +4,14 @@
 using namespace std;
 
 bool gameOver;
-int x, y, fruitX, fruitY, score,wall,speed, width = 20, height = 20, nTail,v=10;
+int x, y, fruitX, fruitY, score,wall,speed, width = 20, height = 20, nTail,v=10, powerUpX, powerUpY;
 char p1_name[100];
 enum eDirecton { STOP = 0, LEFT, RIGHT, UP, DOWN};
 eDirecton dir;
 int tailX[100], tailY[100];
+bool powerUp = false;
+int powerUpType = rand()% 3;
+bool twoPlayer=false;
 
 void playMenu(){
 
@@ -28,6 +31,12 @@ void playMenu(){
 
 	fruitX = rand() % width;
 	fruitY = rand() % height;
+    do{
+       	powerUpX = rand() % width;
+        powerUpY = rand() % height;
+	  }
+	while(fruitX==powerUpX && fruitY==powerUpY);
+
 
 	for(int i=0;i<=100;i++)
 	{
@@ -174,6 +183,11 @@ void Logic()
 		fruitX = rand() % width;
 		fruitY = rand() % height;
 		nTail++;
+		if(score%50==0)
+        {
+            powerUp = true;
+            powerUpType = rand()% 3;
+		}
 	}
 }
 void startGame()
@@ -222,10 +236,10 @@ int main ()
     cout<<"BUN VENIT!!!"<<endl;
     while(1)
   {
-   
+
 	if(gameOver)
     {
-    
+
 
         cout<<"JOC NOU? (1/0) "<<endl;
         cin>>n;
@@ -233,11 +247,11 @@ int main ()
         gameOver = false;
         if(n==0)
         {
-            Setup(); 
+            Setup();
         }
         else{
-            playMenu(); 
-            startGame(); 
+            playMenu();
+            startGame();
         }
     }
     else
