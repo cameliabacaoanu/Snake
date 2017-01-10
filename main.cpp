@@ -83,6 +83,8 @@ void Draw()
 				cout << '#';
 			else if (i == fruitY && j == fruitX)
 				cout << '*';
+                         else if (powerUp && i == powerUpY && j == powerUpX){
+                cout<< powerUpType;}
 			else
 			{
 				bool print = false;
@@ -203,7 +205,30 @@ void Logic()
             powerUpType = rand()% 3;
 		}
 	}
+       if(x == powerUpX && y == powerUpY)
+   {
+     switch (powerUpType)
+        {
+        case 0:
+            score = score * 2;
+            break;
+        case 1:
+            v = v + 10;
+            speed--;
+            break;
+        case 2:
+            if(v>10)
+              v = v - 10;
+            speed++;
+            break;
+        default:
+            break;
+        }
+
+        powerUp=false;
+	}
 }
+
 void startGame()
 {
 	while (!gameOver)
