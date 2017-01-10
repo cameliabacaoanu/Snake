@@ -11,7 +11,7 @@ enum eDirecton { STOP = 0, LEFT, RIGHT, UP, DOWN};
 eDirecton dir;
 int tailX[100], tailY[100];
 bool powerUp = false;
-int powerUpType = rand()% 3;
+int powerUpType = rand()% 5;
 bool twoPlayer=false;
 char filename[] = "scoreFile";
 std::fstream myFile;
@@ -53,7 +53,7 @@ void playMenu(){
 }
 
 void scoreMenu()
-{  
+{
     system("cls");
     std::string str;
     std::ifstream f(filename);
@@ -81,9 +81,13 @@ void Draw()
 				cout << "|";
 			if (i == y && j == x)
 				cout << '#';
-			else if (i == fruitY && j == fruitX)
-				cout << '*';
-			else
+				else
+                  if (powerUp && i == powerUpY && j == powerUpX)
+                     cout<< powerUpType;
+                  else
+                   if (i == fruitY && j == fruitX)
+				    cout << '*';
+            else
 			{
 				bool print = false;
 				for (int k = 0; k < nTail; k++)
@@ -200,8 +204,36 @@ void Logic()
 		if(score%50==0)
         {
             powerUp = true;
-            powerUpType = rand()% 3;
+            powerUpType = rand()% 5;
 		}
+	}
+	if(x== powerUpX && y == powerUpY){
+        switch (powerUpType)
+        {
+        case 0:
+            score = score * 2;
+            break;
+        case 1:
+            v = v + 10;
+            speed--;
+            break;
+        case 2:
+            if(v>10)
+                v = v - 10;
+            speed++;
+            break;
+        case 3:
+            nTail=nTail/2;
+            break;
+        case 4:
+            score=score*5;
+            gameOver=true;
+            break;
+        default:
+            break;
+        }
+
+        powerUp=false;
 	}
 }
 void startGame()
@@ -257,7 +289,7 @@ int main ()
         ofstream output(filename, std::ios_base::app | std::ios_base::out);
         output <<p1_name<<" - "<<score<<"\n";
         output.close();
-       
+
         cout<<"JOC NOU? (1/0) "<<endl;
         cin>>n;
 
