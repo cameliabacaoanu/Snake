@@ -167,16 +167,27 @@ void Input()
 		case 'x':
 			gameOver = true;
 			break;
+        case 'j':
+		    if(dir2 != RIGHT)
+                dir2 = LEFT;
+			break;
+		case 'l':
+		    if(dir2 != LEFT)
+                dir2 = RIGHT;
+			break;
+		case 'i':
+		    if(dir2 != DOWN)
+                dir2 = UP;
+			break;
+		case 'k':
+		    if(dir2 != UP)
+                dir2 = DOWN;
+			break;
 		}
 	}
 }
 void Logic()
 {
-        int prevX = tailX[0];
-	int prevY = tailY[0];
-	int prev2X, prev2Y;
-	tailX[0] = x;
-	tailY[0] = y;
 	if (speed == 1)
         v=50;
     else
@@ -185,6 +196,24 @@ void Logic()
         else
           if(speed == 3)
             v=10;
+
+    int prevX = tailX[0];
+	int prevY = tailY[0];
+	int prev2X, prev2Y;
+	int prevX2,prevY2;
+	if(twoPlayer)
+    {
+       prevX2= tailX2[0];
+       prevY2 = tailY2[0];
+	}
+	int prev2X2,prev2Y2;
+	tailX[0] = x;
+	tailY[0] = y;
+	if(twoPlayer)
+    {
+        tailX2[0] = x2;
+        tailY2[0] = y2;
+	}
         for (int i = 1; i < nTail; i++)
 	{
 		prev2X = tailX[i];
@@ -193,6 +222,18 @@ void Logic()
 		tailY[i] = prevY;
 		prevX = prev2X;
 		prevY = prev2Y;
+	}
+	if(twoPlayer)
+    {
+        for (int i = 1; i < nTail2; i++)
+        {
+           	prev2X2 = tailX2[i];
+            prev2Y2 = tailY2[i];
+            tailX2[i] = prevX2;
+            tailY2[i] = prevY2;
+            prevX2 = prev2X2;
+            prevY2 = prev2Y2;
+		}
 	}
 	switch (dir)
 	{
@@ -211,6 +252,25 @@ void Logic()
 	default:
 		break;
 	}
+
+	switch (dir2)
+	{
+	case LEFT:
+		x2--;
+		break;
+	case RIGHT:
+		x2++;
+		break;
+	case UP:
+		y2--;
+		break;
+	case DOWN:
+		y2++;
+		break;
+	default:
+		break;
+	}
+
    if(wall == 1)
 	{if (x > width || x < 0 || y > height || y < 0)
 	  gameOver = true;}
