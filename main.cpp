@@ -7,10 +7,10 @@ using namespace std;
 bool gameOver;
 bool twoPlayer=false;
 int x, y, x2,y2, fruitX, fruitY, powerUpX, powerUpY;
-int tailX[100], tailY[100],int tailX2[100], tailY2[100];
+int tailX[100], tailY[100],tailX2[100], tailY2[100];
 int nTail,nTail2;
 int score,wall,speed,v,n;
-int width = 20, height = 20, 
+int width = 20, height = 20;
 char p1_name[100];
 char p2_name[100];
 enum eDirecton { STOP = 0, LEFT, RIGHT, UP, DOWN};
@@ -18,7 +18,6 @@ eDirecton dir;
 eDirecton dir2;
 bool powerUp = false;
 int powerUpType = rand()% 5;
-bool twoPlayer=false;
 char filename[] = "scoreFile";
 std::fstream myFile;
 
@@ -42,7 +41,7 @@ void playMenu(){
 	x = width / 2;
 	y = height / 2;
 	nTail=0;
-        
+
         if(twoPlayer){
 	dir2 = STOP;
 	x2 = x/2;
@@ -102,13 +101,16 @@ void Draw()
 			if (j == 0)
 				cout << "|";
 			if (i == y && j == x)
-				cout << '#';
+				cout << '$';
 				else
-                  if (powerUp && i == powerUpY && j == powerUpX)
-                     cout<< powerUpType;
+                  if (twoPlayer && i == y2 && j == x2)
+				     cout << '@';
                   else
-                   if (i == fruitY && j == fruitX)
-				    cout << '*';
+                    if (powerUp && i == powerUpY && j == powerUpX)
+                      cout<< powerUpType;
+                    else
+                      if (i == fruitY && j == fruitX)
+				        cout << '*';
             else
 			{
 				bool print = false;
@@ -119,6 +121,15 @@ void Draw()
 						cout << "o";
 						print = true;
 					}
+				}
+				if(twoPlayer)
+				for (int k = 0; k < nTail2; k++)
+				{
+                    if (tailX2[k] == j && tailY2[k] == i)
+                    {
+                        cout << "o";
+                        print = true;
+                    }
 				}
 				if (!print)
 					cout << " ";
