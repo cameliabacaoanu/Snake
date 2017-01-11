@@ -5,11 +5,17 @@
 using namespace std;
 
 bool gameOver;
-int x, y, fruitX, fruitY, score,wall,speed, width = 20, height = 20, nTail,v=10, powerUpX, powerUpY;
+bool twoPlayer=false;
+int x, y, x2,y2, fruitX, fruitY, powerUpX, powerUpY;
+int tailX[100], tailY[100],int tailX2[100], tailY2[100];
+int nTail,nTail2;
+int score,wall,speed,v,n;
+int width = 20, height = 20, 
 char p1_name[100];
+char p2_name[100];
 enum eDirecton { STOP = 0, LEFT, RIGHT, UP, DOWN};
 eDirecton dir;
-int tailX[100], tailY[100];
+eDirecton dir2;
 bool powerUp = false;
 int powerUpType = rand()% 5;
 bool twoPlayer=false;
@@ -21,6 +27,10 @@ void playMenu(){
 
     cout<<"Introdu numele jucatorului"<<endl;
     cin>>p1_name;
+     if(twoPlayer){
+        cout<<"Introdu numele jucatorului 2"<<endl;
+        cin>>p2_name;
+    }
     cout<<"FINAL JOC LA IMPACT CU MARGINILE? (1/0)"<<endl;
     cin>>wall;
     cout<<"DIFICULTATE: 1=USOR  2=MEDIU  3=GREU "<<endl;
@@ -32,6 +42,13 @@ void playMenu(){
 	x = width / 2;
 	y = height / 2;
 	nTail=0;
+        
+        if(twoPlayer){
+	dir2 = STOP;
+	x2 = x/2;
+	y2 = y/2;
+	nTail2=0;
+	}
 
 	fruitX = rand() % width;
 	fruitY = rand() % height;
@@ -46,6 +63,11 @@ void playMenu(){
 	{
 		tailX[i]=0;
 		tailY[i]=0;
+                if(twoPlayer)
+                 {
+                    tailX2[i]=0;
+                    tailY2[i]=0;
+		 }
 
 	}
 	score = 0;
@@ -251,19 +273,27 @@ void Setup()
 {
   int menu;
   cout<<"Selectati una din optiuni:"<<endl;
-  cout<<"1. Joc nou"<<endl;
-  cout<<"2. Tabela de scoruri"<<endl;
+  cout<<"1. Joc nou - 1 jucator"<<endl;
+  cout<<"2. Joc nou - 2 jucatori"<<endl;
+  cout<<"3. Tabela de scoruri"<<endl;
   cout<<"0. Exit"<<endl;
   cin>>menu;
 
   switch (menu)
 	{
 	case 1:
+           twoPlayer = false;
 	   playMenu();
 	   startGame();
 	   break;
 
-	case 2:
+       case 2:
+           twoPlayer = true;
+	   playMenu();
+	   startGame();
+	   break;
+
+	case 3:
            scoreMenu();
            break;
 
