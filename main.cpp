@@ -5,6 +5,7 @@
 using namespace std;
 
 bool gameOver;
+bool intersectie=false;
 bool twoPlayer=false;
 int x, y, x2,y2, fruitX, fruitY, powerUpX, powerUpY;
 int tailX[100], tailY[100],tailX2[100], tailY2[100];
@@ -29,6 +30,17 @@ void playMenu(){
      if(twoPlayer){
         cout<<"Introdu numele jucatorului 2"<<endl;
         cin>>p2_name;
+    }
+     if(twoPlayer)
+    {
+        int n;
+        cout<<"Alegeti dintre:"<<endl;
+        cout<<"1.La intersectia serpilor, jocul continua."<<endl;
+        cout<<"2.La intersectia serpilor, jocul se termina."<<endl;
+        cin>>n;
+        if(n==2)
+            intersectie=true;
+
     }
     cout<<"FINAL JOC LA IMPACT CU MARGINILE? (1/0)"<<endl;
     cin>>wall;
@@ -298,6 +310,15 @@ void Logic()
          for (int i = 0; i < nTail2; i++)
 		if (tailX2[i] == x2 && tailY2[i] == y2)
 			gameOver = true;
+	if(intersectie)
+     {
+      for(int i=0;i< nTail; i++)
+        if( tailX[i]== x2 && tailY[i]== y2)
+           gameOver=true;
+      for(int i=0;i< nTail2; i++)
+        if(tailX2[i]== x && tailY2[i]== y)
+          gameOver=true;
+     }
 	if (x == fruitX && y == fruitY)
 	{
 		score += 10;
