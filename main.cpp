@@ -285,8 +285,18 @@ void Logic()
       else
         if (y < 0)
           y = height - 1;}
+      if(wall == 1){
+       if(twoPlayer && (x2 > width || x2 < 0 || y2 > height || y2 < 0))
+       {gameOver = true;}
+	} else {
+        if (x2 >= width) x2 = 0; else if (x2 < 0) x2 = width - 1;
+        if (y2 >= height) y2 = 0; else if (y2 < 0) y2 = height - 1;
+	}
 	for (int i = 0; i < nTail; i++)
 		if (tailX[i] == x && tailY[i] == y)
+			gameOver = true;
+         for (int i = 0; i < nTail2; i++)
+		if (tailX2[i] == x2 && tailY2[i] == y2)
 			gameOver = true;
 	if (x == fruitX && y == fruitY)
 	{
@@ -300,6 +310,17 @@ void Logic()
             powerUpType = rand()% 5;
 		}
 	}
+        if (x2 == fruitX && y2 == fruitY)
+	{
+		score += 10;
+		fruitX = rand() % width;
+		fruitY = rand() % height;
+		nTail2++;
+		if(score%50==0){
+            powerUp = true;
+            powerUpType = rand()% 5;
+		}
+        }
 	if(x== powerUpX && y == powerUpY){
         switch (powerUpType)
         {
@@ -317,6 +338,34 @@ void Logic()
             break;
         case 3:
             nTail=nTail/2;
+            break;
+        case 4:
+            score=score*5;
+            gameOver=true;
+            break;
+        default:
+            break;
+        }
+
+        powerUp=false;
+	}
+     if(x2== powerUpX && y2 == powerUpY){
+        switch (powerUpType)
+        {
+        case 0:
+            score = score * 2;
+            break;
+        case 1:
+            v = v + 10;
+            speed--;
+            break;
+        case 2:
+            if(v>10)
+                v = v - 10;
+            speed++;
+            break;
+        case 3:
+            nTail2=nTail2/2;
             break;
         case 4:
             score=score*5;
