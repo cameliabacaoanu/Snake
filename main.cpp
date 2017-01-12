@@ -150,6 +150,24 @@ void Draw()
 			if (j == width - 1)
 				cout << "|";
 		}
+               switch(i){
+            case 0:
+                cout << "Player 1 - "<<p1_name;
+                break;
+            case 2:
+                if(twoPlayer){
+                    cout<< "Player 2 - "<<p2_name;
+                }
+                break;
+            case 4:
+                cout << "Score:" << score;
+                break;
+            case 6:
+                cout << "Speed:" << speed;
+                break;
+            default:
+                break;
+        }
 		cout << endl;
 	}
 	for (int i = 0; i < width+2; i++)
