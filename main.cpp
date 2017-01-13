@@ -7,6 +7,8 @@ using namespace std;
 bool gameOver;
 bool intersectie=false;
 bool twoPlayer=false;
+bool MoreLives=false;
+int lives;
 int x, y, x2,y2, fruitX, fruitY, powerUpX, powerUpY;
 int tailX[100], tailY[100],tailX2[100], tailY2[100];
 int nTail,nTail2;
@@ -31,6 +33,20 @@ void playMenu(){
         cout<<"Introdu numele jucatorului 2"<<endl;
         cin>>p2_name;
     }
+
+    int alegere;
+    cout<<"Mai multe vieti?"<<endl;
+    cout<<"1.Nu"<<endl;
+    cout<<"2.Da"<<endl;
+    cin>>alegere;
+    if(alegere==1)
+        lives=1;
+    else
+    {
+        MoreLives=true;
+        lives=3;
+    }
+
      if(twoPlayer)
     {
         int n;
@@ -42,8 +58,11 @@ void playMenu(){
             intersectie=true;
 
     }
-    cout<<"FINAL JOC LA IMPACT CU MARGINILE? (1/0)"<<endl;
+    cout<<"FINAL JOC LA IMPACT CU MARGINILE?"<<endl;
+    cout<<"1.Nu"<<endl;
+    cout<<"2.Da"<<endl;
     cin>>wall;
+
     cout<<"DIFICULTATE: 1=USOR  2=MEDIU  3=GREU "<<endl;
     cin>>speed;
 
@@ -164,6 +183,9 @@ void Draw()
                 break;
             case 6:
                 cout << "Speed:" << speed;
+                break;
+            case 8:
+                cout << "Lives:" << lives;
                 break;
             default:
                 break;
@@ -301,9 +323,23 @@ void Logic()
 		break;
 	}
 
-   if(wall == 1)
-	{if (x > width || x < 0 || y > height || y < 0)
-	  gameOver = true;}
+   if(wall == 2)
+	{
+         if (x > width || x < 0 || y > height || y < 0)
+           if(MoreLives)
+            {
+                if(lives-1==0)
+                  gameOver = true;
+                else
+                 {
+                  lives=lives-1;
+                  if (x >= width) x = 0; else if (x < 0) x = width - 1;
+                  if (y >= height) y = 0; else if (y < 0) y = height - 1;
+                 }
+              }
+           else
+	     gameOver = true;
+        }
 	else
 	 {if (x >= width)
 	    x = 0;
@@ -315,31 +351,80 @@ void Logic()
       else
         if (y < 0)
           y = height - 1;}
-      if(wall == 1){
+      if(wall == 2){
        if(twoPlayer && (x2 > width || x2 < 0 || y2 > height || y2 < 0))
-       {gameOver = true;}
-	} else {
+       {if(MoreLives)
+            {
+                if(lives-1==0)
+                  gameOver = true;
+                else
+                    {
+                      lives=lives-1;
+                      if (x2 >= width) x2 = 0; else if (x2 < 0) x2 = width - 1;
+                      if (y2 >= height) y2 = 0; else if (y2 < 0) y2 = height - 1;
+	                }
+
+              }
+             else
+             gameOver = true;}
+	} else 
+        {
         if (x2 >= width) x2 = 0; else if (x2 < 0) x2 = width - 1;
         if (y2 >= height) y2 = 0; else if (y2 < 0) y2 = height - 1;
 	}
 	for (int i = 0; i < nTail; i++)
 		if (tailX[i] == x && tailY[i] == y)
-			gameOver = true;
+			 if(MoreLives)
+            {
+                if(lives-1==0)
+                  gameOver = true;
+                else
+                 lives=lives-1;
+              }
+             else
+             gameOver = true;
          for (int i = 0; i < nTail2; i++)
 		if (tailX2[i] == x2 && tailY2[i] == y2)
-			gameOver = true;
+			 if(MoreLives)
+            {
+                if(lives-1==0)
+                  gameOver = true;
+                else
+                 lives=lives-1;
+              }
+             else
+             gameOver = true;
 	if(intersectie)
      {
       for(int i=0;i< nTail; i++)
         if( tailX[i]== x2 && tailY[i]== y2)
-           gameOver=true;
+           if(MoreLives)
+            {
+                if(lives-1==0)
+                  gameOver = true;
+                else
+                 lives=lives-1;
+              }
+             else
+             gameOver = true;
       for(int i=0;i< nTail2; i++)
         if(tailX2[i]== x && tailY2[i]== y)
-          gameOver=true;
+           if(MoreLives)
+            {
+                if(lives-1==0)
+                  gameOver = true;
+                else
+                 lives=lives-1;
+              }
+             else
+             gameOver = true;
      }
 	if (x == fruitX && y == fruitY)
 	{
-		score += 10;
+		 if(MoreLives)		
+               score +=5;
+                  else
+               score+=10;
 		fruitX = rand() % width;
 		fruitY = rand() % height;
 		nTail++;
@@ -351,7 +436,10 @@ void Logic()
 	}
         if (x2 == fruitX && y2 == fruitY)
 	{
-		score += 10;
+              if(MoreLives)		
+               score +=5;
+                  else
+               score+=10;
 		fruitX = rand() % width;
 		fruitY = rand() % height;
 		nTail2++;
