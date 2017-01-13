@@ -105,6 +105,7 @@ void playMenu(){
 
 	}
 	score = 0;
+	system("cls");
 
 }
 
@@ -125,7 +126,8 @@ void scoreMenu()
 
 void Draw()
 {
-        system("cls");
+    COORD cursor = {0, 0};
+    SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), cursor);
 	for (int i = 0; i < width+2; i++)
 		cout << "-";
 	cout << endl;
@@ -200,12 +202,12 @@ void Draw()
                 {
 
                  if(perete==0)
-                    cout<<"0";
+                    cout<<"niciunul  ";
                 else
                     if(perete==1)
-                      cout<<"cel de sus si cel de jos";
+                      cout<<"orizontali";
                     else
-                        cout<<"cel din stanga si cel din dreapta";}
+                        cout<<"verticali ";}
                 break;
             default:
                 break;
@@ -623,9 +625,8 @@ void Logic()
         powerUp=false;
 	}
 	if((nTail%7==0 && nTail!=0 )||(nTail2%7==0 && nTail2!=0))
-	{
 	    perete=rand()%3;
-	}
+
 }
 void startGame()
 {
