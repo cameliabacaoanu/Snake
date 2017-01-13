@@ -20,6 +20,7 @@ enum eDirecton { STOP = 0, LEFT, RIGHT, UP, DOWN};
 eDirecton dir;
 eDirecton dir2;
 bool powerUp = false;
+int perete=rand()%3;
 int powerUpType = rand()% 5;
 char filename[] = "scoreFile";
 std::fstream myFile;
@@ -62,6 +63,8 @@ void playMenu(){
     cout<<"1.Nu"<<endl;
     cout<<"2.Da"<<endl;
     cin>>wall;
+    if (wall==2)
+        perete=4;
 
     cout<<"DIFICULTATE: 1=USOR  2=MEDIU  3=GREU "<<endl;
     cin>>speed;
@@ -186,6 +189,22 @@ void Draw()
                 break;
             case 8:
                 cout << "Lives:" << lives;
+                break;
+            case 10:
+                cout << "Pereti blocati:";
+                if(wall==2)
+                    cout<<"toti";
+                else
+                    if(wall==1)
+                {
+
+                 if(perete==0)
+                    cout<<"0";
+                else
+                    if(perete==1)
+                      cout<<"cel de sus si cel de jos";
+                    else
+                        cout<<"cel din stanga si cel din dreapta";}
                 break;
             default:
                 break;
@@ -341,19 +360,56 @@ void Logic()
 	     gameOver = true;
         }
 	else
-	 {if (x >= width)
-	    x = 0;
-      else
-        if (x < 0)
-          x = width - 1;
-      if (y >= height)
-        y = 0;
-      else
-        if (y < 0)
-          y = height - 1;}
-      if(wall == 2){
-       if(twoPlayer && (x2 > width || x2 < 0 || y2 > height || y2 < 0))
-       {if(MoreLives)
+      {
+	     switch(perete)
+	     {
+            case 0:
+              if (x >= width) x = 0; else if (x < 0) x = width - 1;
+              if (y >= height) y = 0; else if (y < 0) y = height - 1;
+              break;
+            case 1:
+               if (x >= width) x = 0; else if (x < 0) x = width - 1;
+               if (y >= height || y < 0)
+                 if(MoreLives)
+            {
+                if(lives-1==0)
+                  gameOver = true;
+                else
+                 {
+                  lives=lives-1;
+                  if (y >= height) y = 0; else if (y < 0) y = height - 1;
+                 }
+              }
+             else
+             gameOver = true;
+               break;
+            case 2:
+               if (y >= height) y = 0; else if (y < 0) y = height - 1;
+               if (x >= width || x < 0)
+                if(MoreLives)
+            {
+                if(lives-1==0)
+                  gameOver = true;
+                else
+                 {
+                  lives=lives-1;
+                  if (x >= width) x = 0; else if (x < 0) x = width - 1;
+                 }
+              }
+             else
+             gameOver = true;
+               break;
+            default:
+                break;
+
+        }
+
+    }
+
+      if(wall == 2)
+        {
+          if(twoPlayer && (x2 > width || x2 < 0 || y2 > height || y2 < 0))
+           {if(MoreLives)
             {
                 if(lives-1==0)
                   gameOver = true;
@@ -364,14 +420,65 @@ void Logic()
                       if (y2 >= height) y2 = 0; else if (y2 < 0) y2 = height - 1;
 	                }
 
+            }
+            else
+             gameOver = true;}
+	    }
+	  else
+       {
+	     switch(perete)
+	     {
+            case 0:
+              if (x2 >= width)
+                x2 = 0;
+              else
+                if (x2 < 0)
+                  x2 = width - 1;
+              if (y2 >= height)
+                y2 = 0;
+              else
+                if (y2 < 0)
+                  y2 = height - 1;
+              break;
+            case 1:
+               if (x2 >= width) x2 = 0; else if (x2 < 0) x2 = width - 1;
+               if (y2 >= height || y2 < 0)
+                 if(MoreLives)
+            {
+                if(lives-1==0)
+                  gameOver = true;
+                else
+                 {
+                  lives=lives-1;
+                  if (y2 >= height) y2 = 0; else if (y2 < 0) y2= height - 1;
+                 }
               }
              else
-             gameOver = true;}
-	} else 
-        {
-        if (x2 >= width) x2 = 0; else if (x2 < 0) x2 = width - 1;
-        if (y2 >= height) y2 = 0; else if (y2 < 0) y2 = height - 1;
-	}
+             gameOver = true;
+               break;
+            case 2:
+               if (y2 >= height) y2 = 0; else if (y2 < 0) y2 = height - 1;
+               if (x2 >= width || x2 < 0)
+                if(MoreLives)
+            {
+                if(lives-1==0)
+                  gameOver = true;
+                else
+                 {
+                  lives=lives-1;
+                  if (x2 >= width) x2 = 0; else if (x2 < 0) x2 = width - 1;
+                 }
+              }
+             else
+             gameOver = true;
+               break;
+            default:
+                break;
+
+        }
+
+    }
+
 	for (int i = 0; i < nTail; i++)
 		if (tailX[i] == x && tailY[i] == y)
 			 if(MoreLives)
@@ -421,7 +528,7 @@ void Logic()
      }
 	if (x == fruitX && y == fruitY)
 	{
-		 if(MoreLives)		
+		 if(MoreLives)
                score +=5;
                   else
                score+=10;
@@ -436,7 +543,7 @@ void Logic()
 	}
         if (x2 == fruitX && y2 == fruitY)
 	{
-              if(MoreLives)		
+              if(MoreLives)
                score +=5;
                   else
                score+=10;
@@ -503,6 +610,10 @@ void Logic()
         }
 
         powerUp=false;
+	}
+	if((nTail%7==0 && nTail!=0 )||(nTail2%7==0 && nTail2!=0))
+	{
+	    perete=rand()%3;
 	}
 }
 void startGame()
