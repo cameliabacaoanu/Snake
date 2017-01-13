@@ -24,7 +24,6 @@ bool pause=false;
 int perete=rand()%3;
 int powerUpType = rand()% 5;
 char filename[] = "scoreFile";
-std::fstream myFile;
 
 
 void playMenu(){
@@ -97,10 +96,10 @@ void playMenu(){
 	{
 		tailX[i]=0;
 		tailY[i]=0;
-                if(twoPlayer)
-                 {
-                    tailX2[i]=0;
-                    tailY2[i]=0;
+        if(twoPlayer)
+        {
+          tailX2[i]=0;
+          tailY2[i]=0;
 		 }
 
 	}
@@ -365,8 +364,16 @@ void Logic()
                 else
                  {
                   lives=lives-1;
-                  if (x >= width) x = 0; else if (x < 0) x = width - 1;
-                  if (y >= height) y = 0; else if (y < 0) y = height - 1;
+                  if (x >= width)
+                    x = 0;
+                  else
+                    if (x < 0)
+                      x = width - 1;
+                  if (y >= height)
+                    y = 0;
+                  else
+                    if (y < 0)
+                      y = height - 1;
                  }
               }
            else
@@ -377,11 +384,23 @@ void Logic()
 	     switch(perete)
 	     {
             case 0:
-              if (x >= width) x = 0; else if (x < 0) x = width - 1;
-              if (y >= height) y = 0; else if (y < 0) y = height - 1;
+              if (x >= width)
+                x = 0;
+              else
+                if (x < 0)
+                  x = width - 1;
+              if (y >= height)
+                y = 0;
+              else
+                if (y < 0)
+                  y = height - 1;
               break;
             case 1:
-               if (x >= width) x = 0; else if (x < 0) x = width - 1;
+               if (x >= width)
+                  x = 0;
+               else
+                  if (x < 0)
+                    x = width - 1;
                if (y >= height || y < 0)
                  if(MoreLives)
             {
@@ -390,14 +409,22 @@ void Logic()
                 else
                  {
                   lives=lives-1;
-                  if (y >= height) y = 0; else if (y < 0) y = height - 1;
+                  if (y >= height)
+                    y = 0;
+                  else
+                    if (y < 0)
+                      y = height - 1;
                  }
               }
              else
              gameOver = true;
                break;
             case 2:
-               if (y >= height) y = 0; else if (y < 0) y = height - 1;
+               if (y >= height)
+                 y = 0;
+               else
+                if (y < 0)
+                  y = height - 1;
                if (x >= width || x < 0)
                 if(MoreLives)
             {
@@ -406,7 +433,11 @@ void Logic()
                 else
                  {
                   lives=lives-1;
-                  if (x >= width) x = 0; else if (x < 0) x = width - 1;
+                  if (x >= width)
+                    x = 0;
+                  else
+                    if (x < 0)
+                      x = width - 1;
                  }
               }
              else
@@ -429,8 +460,16 @@ void Logic()
                 else
                     {
                       lives=lives-1;
-                      if (x2 >= width) x2 = 0; else if (x2 < 0) x2 = width - 1;
-                      if (y2 >= height) y2 = 0; else if (y2 < 0) y2 = height - 1;
+                      if (x2 >= width)
+                        x2 = 0;
+                      else
+                        if (x2 < 0)
+                          x2 = width - 1;
+                      if (y2 >= height)
+                        y2 = 0;
+                      else
+                        if (y2 < 0)
+                          y2 = height - 1;
 	                }
 
             }
@@ -454,7 +493,11 @@ void Logic()
                   y2 = height - 1;
               break;
             case 1:
-               if (x2 >= width) x2 = 0; else if (x2 < 0) x2 = width - 1;
+               if (x2 >= width)
+                 x2 = 0;
+               else
+                 if (x2 < 0)
+                   x2 = width - 1;
                if (y2 >= height || y2 < 0)
                  if(MoreLives)
             {
@@ -463,14 +506,22 @@ void Logic()
                 else
                  {
                   lives=lives-1;
-                  if (y2 >= height) y2 = 0; else if (y2 < 0) y2= height - 1;
+                  if (y2 >= height)
+                    y2 = 0;
+                  else
+                    if (y2 < 0)
+                      y2= height - 1;
                  }
               }
              else
              gameOver = true;
                break;
             case 2:
-               if (y2 >= height) y2 = 0; else if (y2 < 0) y2 = height - 1;
+               if (y2 >= height)
+                 y2 = 0;
+               else
+                 if (y2 < 0)
+                   y2 = height - 1;
                if (x2 >= width || x2 < 0)
                 if(MoreLives)
             {
@@ -479,7 +530,11 @@ void Logic()
                 else
                  {
                   lives=lives-1;
-                  if (x2 >= width) x2 = 0; else if (x2 < 0) x2 = width - 1;
+                  if (x2 >= width)
+                    x2 = 0;
+                  else
+                    if (x2 < 0)
+                      x2 = width - 1;
                  }
               }
              else
@@ -542,9 +597,9 @@ void Logic()
 	if (x == fruitX && y == fruitY)
 	{
 		 if(MoreLives)
-               score +=5;
-                  else
-               score+=10;
+            score +=5;
+        else
+            score+=10;
 		fruitX = rand() % width;
 		fruitY = rand() % height;
 		nTail++;
@@ -556,10 +611,10 @@ void Logic()
 	}
         if (x2 == fruitX && y2 == fruitY)
 	{
-              if(MoreLives)
-               score +=5;
-                  else
-               score+=10;
+        if(MoreLives)
+          score +=5;
+        else
+          score+=10;
 		fruitX = rand() % width;
 		fruitY = rand() % height;
 		nTail2++;
