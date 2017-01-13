@@ -20,6 +20,7 @@ enum eDirecton { STOP = 0, LEFT, RIGHT, UP, DOWN};
 eDirecton dir;
 eDirecton dir2;
 bool powerUp = false;
+bool pause=false;
 int perete=rand()%3;
 int powerUpType = rand()% 5;
 char filename[] = "scoreFile";
@@ -124,7 +125,7 @@ void scoreMenu()
 
 void Draw()
 {
-    system("cls");
+        system("cls");
 	for (int i = 0; i < width+2; i++)
 		cout << "-";
 	cout << endl;
@@ -224,21 +225,25 @@ void Input()
 		switch (_getch())
 		{
 		case 'a':
+		    if(dir != RIGHT)
 			dir = LEFT;
 			break;
 		case 'd':
+		    if(dir != LEFT)
 			dir = RIGHT;
 			break;
 		case 'w':
+		    if(dir != DOWN)
 			dir = UP;
 			break;
 		case 's':
+		    if(dir != UP)
 			dir = DOWN;
 			break;
 		case 'x':
 			gameOver = true;
 			break;
-        case 'j':
+                 case 'j':
 		    if(dir2 != RIGHT)
                 dir2 = LEFT;
 			break;
@@ -253,6 +258,12 @@ void Input()
 		case 'k':
 		    if(dir2 != UP)
                 dir2 = DOWN;
+			break;
+                case 'r':
+                       pause=false;
+		       break;
+                case 'p':
+			pause=true;
 			break;
 		}
 	}
@@ -620,10 +631,16 @@ void startGame()
 {
 	while (!gameOver)
 	{
-		Draw();
+		if(pause)
+                 {
+                Draw();
+		Input();
+                 }
+                else
+                {Draw();
 		Input();
 		Logic();
-		Sleep(v);
+		Sleep(v);}
 	}
 }
 
